@@ -40,10 +40,13 @@ copia `.env.example` como `.env` y edítalo. Sin `.env` la suite funciona igual.
 | Solo los escenarios críticos (smoke)              | `npm run test:smoke`                    |
 | Ver el navegador mientras corre                   | `npm run test:headed`                   |
 | Correr en Firefox / WebKit (Safari)               | `npm run test:firefox` / `npm run test:webkit` |
-| Correr por tag                                    | `npm run test:tag -- "@carrito"`        |
-| Combinar tags                                     | `npm run test:tag -- "@compra and @negativo"` |
+| Correr por tag                                    | `npx cucumber-js --tags "@carrito"`     |
+| Combinar tags                                     | `npx cucumber-js --tags "@compra and @negativo"` |
 | Una sola feature                                  | `npx cucumber-js features/login.feature` |
 | Chequear tipos de TypeScript                      | `npm run typecheck`                     |
+
+Todos los comandos funcionan igual en Windows (cmd o PowerShell), macOS y Linux: las variables
+de entorno de los scripts se pasan con `cross-env`, justamente para que no dependan del sistema.
 
 ### Tags disponibles
 

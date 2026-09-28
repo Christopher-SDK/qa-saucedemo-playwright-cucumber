@@ -7,7 +7,6 @@
     "test:headed": "cross-env HEADLESS=false PARALLEL=1 cucumber-js",
     "test:firefox": "cross-env BROWSER=firefox cucumber-js",
     "test:webkit": "cross-env BROWSER=webkit cucumber-js",
-    "test:tag": "cucumber-js --tags",
     "typecheck": "tsc --noEmit",
     "install:browsers": "playwright install --with-deps chromium firefox webkit"
   },

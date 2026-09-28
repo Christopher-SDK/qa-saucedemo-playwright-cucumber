@@ -12,14 +12,19 @@ on:
 
 jobs:
   e2e:
-    name: E2E (${{ matrix.browser }})
-    runs-on: ubuntu-latest
+    name: E2E (${{ matrix.browser }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     strategy:
       # Si falla un navegador quiero ver igual el resultado de los otros dos.
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         browser: [chromium, firefox, webkit]
+        # Sumo una corrida en Windows para asegurarme de que los scripts y rutas funcionan ahí también.
+        include:
+          - os: windows-latest
+            browser: chromium
 
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +43,7 @@ jobs:
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Ejecutar pruebas
-        run: npx cucumber-js
+        run: npm test
         env:
           BROWSER: ${{ matrix.browser }}
 
@@ -46,6 +51,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: reporte-${{ matrix.browser }}
+          name: reporte-${{ matrix.browser }}-${{ matrix.os }}
           path: reports/
           retention-days: 14
