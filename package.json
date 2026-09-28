@@ -1,0 +1,37 @@
+{
+  "name": "qa-saucedemo-playwright-cucumber",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:smoke": "cucumber-js --profile smoke",
+    "test:headed": "cross-env HEADLESS=false PARALLEL=1 cucumber-js",
+    "test:firefox": "cross-env BROWSER=firefox cucumber-js",
+    "test:webkit": "cross-env BROWSER=webkit cucumber-js",
+    "test:tag": "cucumber-js --tags",
+    "typecheck": "tsc --noEmit",
+    "install:browsers": "playwright install --with-deps chromium firefox webkit"
+  },
+  "keywords": [
+    "qa",
+    "e2e",
+    "playwright",
+    "cucumber",
+    "bdd",
+    "page-object-model"
+  ],
+  "license": "MIT",
+  "description": "Suite E2E de Sauce Demo con Playwright + Cucumber (BDD) y Page Object Model",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.4",
+    "cross-env": "^10.1.0",
+    "dotenv": "^18.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

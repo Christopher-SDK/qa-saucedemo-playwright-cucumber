@@ -1,0 +1,51 @@
+name: E2E Sauce Demo
+
+# Corre en cada push/PR, todos los días a las 11:00 UTC (por si Sauce Demo cambia algo
+# sin que nosotros toquemos código) y a mano desde la pestaña Actions.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: E2E (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      # Si falla un navegador quiero ver igual el resultado de los otros dos.
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Chequeo de tipos
+        run: npm run typecheck
+
+      - name: Instalar navegador
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Ejecutar pruebas
+        run: npx cucumber-js
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+      # Subo los reportes siempre, pase o falle, para poder revisarlos desde la ejecución.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reporte-${{ matrix.browser }}
+          path: reports/
+          retention-days: 14
