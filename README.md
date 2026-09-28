@@ -1,5 +1,7 @@
 # Automatización E2E de Sauce Demo — Playwright + Cucumber
 
+[![CI](https://github.com/Christopher-SDK/qa-saucedemo-playwright-cucumber/actions/workflows/e2e.yml/badge.svg)](https://github.com/Christopher-SDK/qa-saucedemo-playwright-cucumber/actions/workflows/e2e.yml)
+
 Suite de pruebas automatizadas para [Sauce Demo](https://www.saucedemo.com/) escrita con
 **Playwright** para manejar el navegador y **Cucumber** para describir los escenarios en Gherkin
 (en español). El código está en TypeScript y sigue el patrón **Page Object Model**.
@@ -21,7 +23,7 @@ No hace falta instalar navegadores a mano; Playwright los descarga con el comand
 ## Instalación
 
 ```bash
-git clone <url-de-este-repo>
+git clone https://github.com/Christopher-SDK/qa-saucedemo-playwright-cucumber.git
 cd qa-saucedemo-playwright-cucumber
 npm install
 npx playwright install chromium        # o: npm run install:browsers  (instala los 3)
