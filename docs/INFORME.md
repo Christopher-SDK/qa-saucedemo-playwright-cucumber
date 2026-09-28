@@ -77,7 +77,7 @@ variable de entorno), el cliente por defecto en `customers.ts` y la conversión 
 - **Aislamiento por escenario.** El navegador se abre una vez por worker, pero cada escenario usa un
   contexto nuevo (equivalente a una ventana de incógnito). Esto importa porque Sauce Demo guarda el
   carrito en `localStorage`: sin contexto nuevo, un escenario podría heredar productos del anterior.
-- **Montos en centavos.** En JavaScript `29.99 + 9.99` no da exactamente `39.98`. Para validar el
+- **Montos en centavos.** En JavaScript `9.99 + 49.99` da `59.980000000000004` y no `59.98`. Para validar el
   checkout convierto todo a enteros en centavos y comparo sin errores de redondeo.
 - **Validación contra una fuente independiente.** El subtotal del resumen lo comparo contra los
   precios que mostraba el catálogo al momento de agregar, no contra los precios del mismo resumen.

@@ -28,7 +28,7 @@ export class CheckoutOverviewPage extends BasePage {
   }
 
   // Los montos los devuelvo en centavos (enteros). Si trabajara con decimales en JS,
-  // 29.99 + 9.99 no da exactamente 39.98 y la comparación fallaría por redondeo.
+  // 9.99 + 49.99 da 59.980000000000004 y no 59.98 y la comparación fallaría por redondeo.
   async subtotalCents(): Promise<number> {
     return toCents(await this.subtotalLabel.innerText());
   }
