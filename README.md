@@ -123,6 +123,8 @@ En total son **25 escenarios / 130 pasos**, y pasan en Chromium, Firefox y WebKi
   que confirma que la suite no depende de esperas fijas.
 - **Cross-browser**: la misma suite corre en Chromium, Firefox y WebKit cambiando solo una variable.
 - **Ejecución en paralelo** con un contexto de navegador limpio por escenario.
+- **Un reintento solo en CI**, para absorber cortes de red del sitio público; en local no hay
+  reintentos, así que cualquier fallo se ve de inmediato.
 - **Evidencia automática al fallar**: screenshot dentro del reporte + trace de Playwright.
 - **Pipeline de GitHub Actions** que corre la suite en los 3 navegadores en cada push, en cada PR y
   una vez al día, y deja los reportes descargables.

@@ -82,13 +82,17 @@ variable de entorno), el cliente por defecto en `customers.ts` y la conversión 
 - **Validación contra una fuente independiente.** El subtotal del resumen lo comparo contra los
   precios que mostraba el catálogo al momento de agregar, no contra los precios del mismo resumen.
   Si comparara el resumen consigo mismo, un error de precio pasaría la prueba.
+- **Un reintento solo en CI.** En `cucumber.js` el reintento vale 1 cuando corre en GitHub Actions y
+  0 en local. En CI absorbe algún corte de red puntual con saucedemo.com, que es un sitio público
+  que no controlo; en local lo dejo en 0 para que cualquier fallo se vea de inmediato. Si un
+  escenario pasa en el reintento, Cucumber lo deja marcado en el reporte, así que no queda oculto.
 - **Evidencia al fallar.** Cuando un escenario falla se adjunta un screenshot al reporte HTML y se
   guarda un trace de Playwright con la línea de tiempo completa.
 
 ## 5. Resultados
 
 - 25 escenarios / 130 pasos, todos en verde.
-- Probado en Chromium, Firefox y WebKit.
+- Probado en Chromium, Firefox y WebKit, y también en Windows (en el CI).
 - Lo corrí varias veces seguidas con 4 escenarios en paralelo para descartar pruebas inestables.
 - Duración aproximada: 15–25 segundos en total, según el navegador.
 
