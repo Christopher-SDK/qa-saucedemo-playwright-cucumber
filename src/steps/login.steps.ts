@@ -50,7 +50,7 @@ Then('debería ver el catálogo de productos', async function (this: CustomWorld
 
 Then('debería seguir en la página de inicio de sesión', async function (this: CustomWorld) {
   await expect(this.loginPage.loginButton).toBeVisible();
-  await expect(this.page.getByTestId('inventory-list')).toHaveCount(0);
+  await expect(this.inventoryPage.items).toHaveCount(0);
 });
 
 Then(

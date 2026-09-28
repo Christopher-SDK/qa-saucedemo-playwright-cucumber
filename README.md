@@ -14,7 +14,7 @@ El informe con la estrategia y los patrones usados está en [`docs/INFORME.md`](
 
 ## Requisitos
 
-- Node.js 18 o superior (lo probé con Node 22 y 23)
+- Node.js 20 o superior (lo probé con Node 22 y 23). Playwright 1.63 ya no funciona con Node 18.
 - npm
 - Git
 

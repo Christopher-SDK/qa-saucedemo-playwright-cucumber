@@ -29,28 +29,38 @@ Before(async function (this: CustomWorld) {
 });
 
 After(async function (this: CustomWorld, { pickle, result }) {
+  // Si el Before falló antes de crear el contexto, no hay nada que cerrar ni evidencia que sacar.
+  if (!this.context) return;
   const failed = result?.status === Status.FAILED;
 
-  if (failed) {
-    // Si falla, adjunto un screenshot directo al reporte HTML: es lo primero que uno quiere ver.
-    const screenshot = await this.page.screenshot({ fullPage: true });
-    this.attach(screenshot, 'image/png');
-  }
-
-  if (config.traceOnFailure) {
+  // Todo lo de la evidencia va en try/finally: si el screenshot o el trace fallan (por ejemplo,
+  // porque la página se cerró), no quiero que ese error tape el error real del escenario ni que
+  // el contexto quede abierto y se acumulen navegadores.
+  try {
     if (failed) {
-      // Además guardo el trace: tiene la línea de tiempo, el DOM y la red de cada paso.
-      mkdirSync('reports/traces', { recursive: true });
-      const name = pickle.name.replace(/[^a-z0-9]+/gi, '_').toLowerCase();
-      const path = `reports/traces/${name}_${Date.now()}.zip`;
-      await this.context.tracing.stop({ path });
-      this.attach(`Trace guardado en ${path} (ábrelo con: npx playwright show-trace ${path})`);
-    } else {
-      await this.context.tracing.stop();
+      // Si falla, adjunto un screenshot directo al reporte HTML: es lo primero que uno quiere ver.
+      try {
+        this.attach(await this.page.screenshot({ fullPage: true }), 'image/png');
+      } catch (error) {
+        this.attach(`No pude tomar el screenshot: ${(error as Error).message}`);
+      }
     }
-  }
 
-  await this.context.close();
+    if (config.traceOnFailure) {
+      if (failed) {
+        // Además guardo el trace: tiene la línea de tiempo, el DOM y la red de cada paso.
+        mkdirSync('reports/traces', { recursive: true });
+        const name = pickle.name.replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+        const path = `reports/traces/${name}_${Date.now()}.zip`;
+        await this.context.tracing.stop({ path });
+        this.attach(`Trace guardado en ${path} (ábrelo con: npx playwright show-trace ${path})`);
+      } else {
+        await this.context.tracing.stop();
+      }
+    }
+  } finally {
+    await this.context.close();
+  }
 });
 
 AfterAll(async function () {

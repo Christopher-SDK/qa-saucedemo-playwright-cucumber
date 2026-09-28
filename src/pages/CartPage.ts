@@ -19,7 +19,12 @@ export class CartPage extends BasePage {
   }
 
   async remove(productName: string): Promise<void> {
-    await this.items.filter({ hasText: productName }).getByRole('button', { name: 'Remove' }).click();
+    // Nombre exacto, igual que en el catálogo: con hasText bastaría que la descripción de otro
+    // producto mencionara este nombre para quitar el equivocado.
+    const fila = this.items.filter({
+      has: this.page.getByTestId('inventory-item-name').getByText(productName, { exact: true }),
+    });
+    await fila.getByRole('button', { name: 'Remove' }).click();
   }
 
   async checkout(): Promise<void> {
